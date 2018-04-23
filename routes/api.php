@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+$api = app('Dingo\Api\Routing\Router');
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+$api->version('v1',['namespace'=>'App\Http\Controllers\Api','middleware' => 'api.throttle', 'limit' => 60, 'expires' => 1], function ($api) {
+    $api->get('/','DemoController@demo');
+    $api->get('demo2','DemoController@demo2');
 });
