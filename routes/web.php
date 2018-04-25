@@ -23,7 +23,8 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function (){
 
 
     Route::get('menus/list/{id?}', 'MenuController@list')->name('menus/list'); //栏目列表页
-    Route::get('menus/add', 'MenuController@add')->name('menus/add'); //栏目添加页
+    Route::get('menus/add/page/{id?}', 'MenuController@add_page')->name('menus/add/page'); //栏目添加页
+    Route::post('menus/add/do', 'MenuController@add_do')->name('menus/add/do'); //添加栏目
     Route::delete('menus/del/{id?}', 'MenuController@del')->name('menus/del'); //删除栏目
 
 
