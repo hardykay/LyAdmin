@@ -32,27 +32,22 @@
 
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <!-- 左侧导航区域 -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="{{ route('menus/list') }}">栏目管理</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                @foreach($share_menus as $share_menu)
+                    @if(empty($share_menu->sons->count()) && !empty($share_menu->href))
+                        <li class="layui-nav-item"><a href="">{{ $share_menu->title }}</a></li>
+                    @else
+                        <li class="layui-nav-item layui-nav-itemed">
+                            <a class="" href="javascript:;">{{ $share_menu->title }}</a>
+                            <dl class="layui-nav-child">
+                                @foreach($share_menu->sons as $share_menu_son)
+                                    <li class="layui-nav-item"><a href="">{{ $share_menu_son->title }}</a></li>
+                                @endforeach
+                            </dl>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
         </div>
     </div>

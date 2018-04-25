@@ -14,15 +14,15 @@
 @endsection
 
 @section('content')
-    <div class="layui-row">
-        <blockquote class="layui-elem-quote">
-            <span class="layui-breadcrumb">
-              <a href="javascript:;">首页</a>
-              <a href="javascript:;">栏目管理</a>
-              <a><cite>栏目列表</cite></a>
-            </span>
-        </blockquote>
-    </div>
+<div class="layui-row">
+    <blockquote class="layui-elem-quote">
+        <span class="layui-breadcrumb">
+          <a href="javascript:;">首页</a>
+          <a href="javascript:;">栏目管理</a>
+          <a><cite>栏目列表</cite></a>
+        </span>
+    </blockquote>
+</div>
 
 <div class="layui-row">
     <fieldset class="layui-elem-field">

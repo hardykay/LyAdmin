@@ -21,15 +21,12 @@
                     <input type="text" name="title" required  lay-verify="required" placeholder="请输入栏目名称" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            @if(!empty($id))
             <div class="layui-form-item">
                 <label class="layui-form-label"> 地址 </label>
                 <div class="layui-input-block">
-                    <input type="hidden" name="iddo" value="1">
-                    <input type="text" name="href" required  lay-verify="required" placeholder="请输入操作地址" autocomplete="off" class="layui-input">
+                    <input type="text" name="href" placeholder="请输入操作地址" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            @endif
             <div class="layui-form-item">
                 <label class="layui-form-label"> 父级栏目 </label>
                 <div class="layui-input-block">

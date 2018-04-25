@@ -54,13 +54,9 @@ class MenuController extends Controller
     {
         $title=$request->input('title','');
         $parent_id=$request->input('parent_id','0');
-        $isdo=$request->input('isdo','');
         $href=$request->input('href','');
         $sort=$request->input('sort','1000');
         if(empty($title)){
-            return back()->with(compact('title','href','sort'));
-        }
-        if(!empty($isdo) && empty($href)){
             return back()->with(compact('title','href','sort'));
         }
         $model_menu=new Menu();
