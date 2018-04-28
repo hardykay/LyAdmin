@@ -24,6 +24,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function (){
 
 
     Route::get('users/list', 'UserController@list')->name('users.list'); //用户列表页
+    Route::patch('users/edit/do', 'UserController@editDo')->name('users.edit.do'); //编辑用户
 
 
 
