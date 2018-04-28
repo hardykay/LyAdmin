@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', '添加'.$text)
+@section('title', '编辑 - '.$menu->title)
 
 @section('content')
     <div class="layui-row">
@@ -8,23 +8,25 @@
             <span class="layui-breadcrumb">
               <a href="javascript:;">首页</a>
               <a href="javascript:;">栏目管理</a>
-              <a><cite>添加{{ $text }}</cite></a>
+              <a><cite>编辑 - {{ $menu->title }}</cite></a>
             </span>
         </blockquote>
     </div>
 
     <div class="layui-row">
-        <form class="layui-form layui-form-pane" action="{{ route('menus.add.do') }}" method="post">
+        <form class="layui-form layui-form-pane" action="{{ route('menus.edit.do') }}" method="post">
             <div class="layui-form-item">
-                <label class="layui-form-label"> {{ $text }}名称 </label>
+                <label class="layui-form-label"> 名称 </label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入{{ $text }}名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入名称"
+                           value="{{ $menu->title }}" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"> 地址 </label>
                 <div class="layui-input-block">
-                    <input type="text" name="href" placeholder="请输入{{ $text }}地址 p.s. 多个操作地址以英文半角逗号`,`分隔" autocomplete="off" class="layui-input">
+                    <input type="text" name="href" placeholder="请输入地址 p.s. 多个操作地址以英文半角逗号`,`分隔" value="{{ $menu->href }}"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -34,9 +36,9 @@
                         <option value="0">顶级栏目</option>
                         @foreach($top_menus as $top_menu)
                             <optgroup label="{{ $top_menu->title }}">
-                                <option value="{{ $top_menu->id }}" @if($top_menu->id==$id) selected @endif>{{ $top_menu->title }}</option>
+                                <option value="{{ $top_menu->id }}" @if($top_menu->id==$menu->parent_id) selected @endif>{{ $top_menu->title }}</option>
                                 @foreach($top_menu->sons as $son_menu)
-                                    <option value="{{ $son_menu->id }}" @if($son_menu->id==$id) selected @endif>&nbsp;&nbsp;{{ $son_menu->title }}</option>
+                                    <option value="{{ $son_menu->id }}" @if($son_menu->id==$menu->parent_id) selected @endif>&nbsp;&nbsp;{{ $son_menu->title }}</option>
                                 @endforeach
                             </optgroup>
                         @endforeach
@@ -46,12 +48,15 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"> 排序 </label>
                 <div class="layui-input-block">
-                    <input type="number" name="sort" value="1000" placeholder="排序 默认为1000 数字大的在前面" autocomplete="off" class="layui-input">
+                    <input type="number" name="sort" value="{{ $menu->sort }}" placeholder="排序 默认为1000 数字大的在前面"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     {{ csrf_field() }}
+                    {{ method_field('PATCH') }}
+                    <input type="hidden" name="id" value="{{ $id }}">
                     <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
@@ -62,7 +67,7 @@
 
 @section('script')
     <script>
-        layui.use('form', function(){
+        layui.use('form', function () {
             var form = layui.form;
         });
     </script>

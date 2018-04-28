@@ -7,7 +7,7 @@
         .layui-table th{
             text-align: center;
         }
-        .layui-table .td-center{
+        .layui-table td{
             text-align: center;
         }
     </style>
@@ -28,9 +28,13 @@
     <fieldset class="layui-elem-field">
         <legend>顶级栏目</legend>
         <div class="layui-field-box">
-            <a href="{{ route('menus/add/page') }}" class="layui-btn layui-btn-normal">添加栏目</a>
+            <a href="{{ route('menus.add.page') }}" class="layui-btn layui-btn-normal">添加栏目</a>
             @foreach($top_menus as $top_menu)
-                <a href="{{ route('menus/list',['id'=>$top_menu->id]) }}" class="layui-btn @if($id==$top_menu->id) layui-btn-disabled @endif">{{ $top_menu->title }}</a>
+                @if($id==$top_menu->id)
+                    <span class="layui-btn layui-btn-warm tips-this" value_id="{{ $top_menu->id }}">{{ $top_menu->title }}<i class="layui-icon">&#xe614;</i></span>
+                @else
+                    <a href="{{ route('menus.list',['id'=>$top_menu->id]) }}" class="layui-btn">{{ $top_menu->title }}</a>
+                @endif
             @endforeach
         </div>
     </fieldset>
@@ -40,10 +44,10 @@
     <div class="layui-form">
         <table class="layui-table">
             <colgroup>
-                <col width="300">
+                <col width="400">
                 <col>
-                <col width="130">
-                <col width="210">
+                <col width="150">
+                <col width="250">
             </colgroup>
             <thead>
             <tr>
@@ -56,14 +60,18 @@
             <tbody>
             @foreach($son_menus as $son_menu)
                 <tr>
-                    <td class="td-center">{{ $son_menu->title }}</td>
-                    <td>{{ $son_menu->sons }}</td>
-                    <td class="td-center">{{ $son_menu->sort }}</td>
-                    <td class="td-center">
+                    <td>{{ $son_menu->title }}</td>
+                    <td>
+                    @foreach($son_menu->sons as $son)
+                        <a href="{{ route('menus.edit.page',['id'=>$son->id]) }}" style="color: #01AAED;">{{ $son->title }}</a>
+                    @endforeach
+                    </td>
+                    <td>{{ $son_menu->sort }}</td>
+                    <td>
                         <div class="layui-btn-group">
-                            <a href="{{ route('menus/add/page',['id'=>$son_menu->id]) }}" class="layui-btn layui-btn-sm layui-btn-normal">添加子操作</a>
-                            <a href="" class="layui-btn layui-btn-sm">编辑</a>
-                            <button class="layui-btn layui-btn-sm layui-btn-danger delthis">删除</button>
+                            <a href="{{ route('menus.add.page',['id'=>$son_menu->id]) }}" class="layui-btn layui-btn-sm layui-btn-normal">添加子操作</a>
+                            <a href="{{ route('menus.edit.page',['id'=>$son_menu->id]) }}" class="layui-btn layui-btn-sm">编辑</a>
+                            <span class="layui-btn layui-btn-sm layui-btn-danger del-this" value_id="{{ $son_menu->id }}">删除</span>
                         </div>
                     </td>
                 </tr>
@@ -81,18 +89,24 @@
         var lyajax = layui.lyajax;
         var $ = layui.$;
 
+        $('.tips-this').on('click', function(){
+            var value_id=$(this).attr('value_id');
+            var edit_url="{{ route('menus.edit.page') }}";
+            var alert_tips='<a href="'+edit_url+'/'+value_id+'" class="layui-btn layui-btn-sm layui-btn-normal">编辑</a><span class="layui-btn layui-btn-sm layui-btn-danger del-this" value_id="'+value_id+'">删除</span>';
+            layer.tips(alert_tips, this,{tips: 3});
+        });
 
-        $('.delthis').click(function () {
-            layer.confirm('确定要删除该栏目吗？',function () {
+        $('body').on('click','.del-this',function () {
+            var value_id=$(this).attr('value_id');
+            layer.confirm('确定要删除该栏目及其下属栏目吗？',function () {
                 var token='{{ csrf_token() }}';
-                lyajax.lyajax('{{ route('menus/del',['id'=>'1']) }}','delete',{_token:token},function (res) {
+                lyajax.lyajax('{{ route('menus.del') }}','delete',{_token:token,id:value_id},function (res) {
                     layer.msg('删除成功!',{icon:1,time:1000},function () {
                         window.location.reload();
                     });
                 });
             });
         });
-
     });
 </script>
 @endsection

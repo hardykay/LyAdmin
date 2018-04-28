@@ -19,6 +19,8 @@ layui.define('layer',function(exports){
                     var status=err.status;
                     if(status==401){
                         window.location.href='/login';
+                    }else if(status==419){
+                        window.location.reload();
                     }else if(status==422){
                         var errors=err.responseJSON.errors;
                         var alerts=[];

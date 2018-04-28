@@ -9,4 +9,8 @@ class IndexController extends Controller
         return view('welcome');
     }
 
+    public function nopage()
+    {
+        return view('errors.404');
+    }
 }

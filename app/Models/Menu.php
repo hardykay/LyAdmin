@@ -34,7 +34,17 @@ class Menu extends Model
      */
     public function getSons($parent_id)
     {
-        return $this->where('parent_id',$parent_id)->get();
+        return $this->where('parent_id',$parent_id)->orderBy('sort','desc')->orderBy('id','asc')->get();
+    }
+
+    /**
+     * 获取子级操作
+     * @param $parent_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getDoSons($parent_id)
+    {
+        return $this->where('parent_id',$parent_id)->where('href','<>','')->orderBy('sort','desc')->orderBy('id','asc')->get();
     }
 
     /**
@@ -45,5 +55,16 @@ class Menu extends Model
     public function addData($data)
     {
         return $this->insert($data);
+    }
+
+    /**
+     * 编辑栏目
+     * @param $id
+     * @param $data
+     * @return bool
+     */
+    public function upData($id,$data)
+    {
+        return $this->where('id',$id)->update($data);
     }
 }

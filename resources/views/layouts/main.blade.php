@@ -36,13 +36,13 @@
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 @foreach($share_menus as $share_menu)
                     @if(empty($share_menu->sons->count()) && !empty($share_menu->href))
-                        <li class="layui-nav-item"><a href="">{{ $share_menu->title }}</a></li>
+                        <li class="layui-nav-item {{ $share_menu->class }}"><a href="{{ route($share_menu->href) }}">{{ $share_menu->title }}</a></li>
                     @else
-                        <li class="layui-nav-item layui-nav-itemed">
+                        <li class="layui-nav-item {{ $share_menu->class }}">
                             <a class="" href="javascript:;">{{ $share_menu->title }}</a>
                             <dl class="layui-nav-child">
                                 @foreach($share_menu->sons as $share_menu_son)
-                                    <li class="layui-nav-item"><a href="">{{ $share_menu_son->title }}</a></li>
+                                    <li class="layui-nav-item {{ $share_menu_son->class }}"><a href="{{ route($share_menu_son->href) }}">{{ $share_menu_son->title }}</a></li>
                                 @endforeach
                             </dl>
                         </li>
